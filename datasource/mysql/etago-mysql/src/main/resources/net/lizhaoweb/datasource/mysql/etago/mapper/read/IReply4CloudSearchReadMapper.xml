@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.lizhaoweb.datasource.mysql.etago.mapper.read.IReply4CloudSearchReadMapper">
+
+    <resultMap type="net.lizhaoweb.datasource.mysql.etago.model.Reply4CloudSearch" id="reply4CloudSearchN">
+        <id column="id" property="id"/>
+        <result column="userId" property="userId"/>
+        <result column="readerIds" property="readerIds"
+                typeHandler="net.lizhaoweb.spring.plugin.mybatis.handler.LongArrayResultTypeHandler"/>
+        <result column="deleterIds" property="deleterIds"
+                typeHandler="net.lizhaoweb.spring.plugin.mybatis.handler.LongArrayResultTypeHandler"/>
+        <result column="content" property="content"/>
+        <result column="type" property="type"/>
+        <result column="conversationId" property="conversationId"/>
+        <result column="addTime" property="addTime"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="memberIds" property="memberIds"
+                typeHandler="net.lizhaoweb.spring.plugin.mybatis.handler.LongArrayResultTypeHandler"/>
+        <result column="nickname" property="nickname"/>
+        <result column="face" property="face"/>
+        <result column="isGroup" property="isGroup"/>
+
+        <collection property="user" ofType="user" column="userId" select="findUsers"/>
+        <collection property="readerList" ofType="user" column="readerIds" select="findUsers"/>
+        <collection property="deleterList" ofType="user" column="deleterIds" select="findUsers"/>
+        <collection property="memberList" ofType="user" column="memberIds" select="findUsers"/>
+    </resultMap>
+
+    <select id="findUsers" parameterType="string" resultType="user">
+        <bind name="lb" value="_parameter.split(',')"/>
+        SELECT
+        user.id AS id,
+        user.username AS username,
+        user.password AS password,
+        user.region_code AS regionCode,
+        user.nickname AS nickName,
+        user.mobile AS mobile,
+        user.email AS email,
+        user.face AS face,
+        user.gender AS gender,
+        user.type AS type,
+        user.regtime AS regTime,
+        user.where_from AS whereFrom,
+        user.where_from_extra AS whereFromExtra,
+        user.update_time AS updateTime,
+        user.del_flag AS delFlag
+        FROM etago_user AS user WHERE user.id IN
+        <foreach item="item" index="index" collection="lb" open="(" separator="," close=")">#{item}</foreach>
+    </select>
+
+    <select id="getAll" resultMap="reply4CloudSearchN">
+        SELECT
+        reply.id AS id,
+        reply.user_id AS userId,
+        reply.conversation_id AS conversationId,
+        reply.type AS type,
+        reply.content AS content,
+        reply.reader AS readerIds,
+        reply.deleter AS deleterIds,
+        reply.add_time AS addTime,
+        reply.update_time AS updateTime,
+        reply.del_flag AS delFlag,
+        conversation.member AS memberIds,
+        conversation.is_group AS isGroup,
+        user.nickname AS nickname,
+        user.face AS face
+        FROM etago_conversation_reply AS reply
+        LEFT JOIN etago_conversation AS conversation ON reply.conversation_id=conversation.id
+        LEFT JOIN etago_user AS user ON reply.user_id=user.id
+        WHERE reply.id IN
+        <foreach item="item" collection="array" open="(" close=")" separator=",">#{item}</foreach>
+    </select>
+
+    <select id="getReplyIds4Update" parameterType="java.lang.Long" resultType="java.util.Map">
+        SELECT reply.id AS id,
+        MAX(reply.update_time) AS replyUpdateTime,
+        MAX(conversation.add_time) AS conversationUpdateTime,
+        MAX(user.update_time) AS userUpdateTime
+        FROM etago_conversation_reply AS reply
+        LEFT JOIN etago_conversation AS conversation ON reply.conversation_id=conversation.id
+        LEFT JOIN etago_user AS user ON reply.user_id=user.id
+        WHERE reply.update_time>#{updateTime} OR conversation.add_time>#{updateTime} OR user.update_time>#{updateTime}
+        GROUP BY reply.id
+    </select>
+
+</mapper>

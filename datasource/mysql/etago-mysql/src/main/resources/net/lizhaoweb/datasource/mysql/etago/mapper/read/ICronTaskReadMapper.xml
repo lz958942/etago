@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.lizhaoweb.datasource.mysql.etago.mapper.read.ICronTaskReadMapper">
+
+    <sql id="cronTaskAllFields">
+		cronTask.id AS id,
+		cronTask.db_name AS dbName,
+		cronTask.table_name AS tableName,
+		cronTask.task_name AS taskName,
+		cronTask.table_update_time AS tableUpdateTime,
+		cronTask.exec_time AS execTime,
+		cronTask.last_exec_time AS lastExecTime,
+		cronTask.add_time AS addTime,
+		cronTask.update_time AS updateTime,
+		cronTask.del_flag AS delFlag
+	</sql>
+
+    <select id="find" resultType="cronTask">
+        SELECT
+        <include refid="cronTaskAllFields"/>
+        FROM etago_cron_task AS cronTask
+        WHERE cronTask.del_flag=0 AND cronTask.db_name=#{dbName} AND cronTask.table_name=#{tableName}
+        <if test="taskName!=null">AND cronTask.task_name=#{taskName}</if>
+		ORDER BY cronTask.update_time DESC
+    </select>
+
+</mapper>

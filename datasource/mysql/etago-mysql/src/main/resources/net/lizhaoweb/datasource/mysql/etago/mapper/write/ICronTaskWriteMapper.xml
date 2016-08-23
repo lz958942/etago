@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.lizhaoweb.datasource.mysql.etago.mapper.write.ICronTaskWriteMapper">
+
+    <insert id="insert" parameterType="cronTask" keyProperty="id" useGeneratedKeys="true">
+        INSERT etago_cron_task(db_name,table_name,table_update_time,task_name,exec_time,last_exec_time,add_time,update_time,del_flag)
+        VALUE (#{dbName},#{tableName},#{tableUpdateTime},#{taskName},#{execTime},#{lastExecTime},#{addTime},#{updateTime},#{delFlag})
+    </insert>
+
+    <update id="update" parameterType="cronTask">
+        UPDATE etago_cron_task SET db_name=#{dbName},table_name=#{tableName},table_update_time=#{tableUpdateTime},task_name=#{taskName},exec_time=#{execTime},last_exec_time=#{lastExecTime},update_time=#{updateTime},del_flag=#{delFlag} WHERE id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM etago_cron_task WHERE id=#{id}
+    </delete>
+</mapper>

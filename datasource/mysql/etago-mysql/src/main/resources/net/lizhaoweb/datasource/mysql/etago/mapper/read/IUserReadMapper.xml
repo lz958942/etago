@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.lizhaoweb.datasource.mysql.etago.mapper.read.IUserReadMapper">
+
+    <sql id="selectUserSql">
+		user.id AS id,
+		user.username AS username,
+		user.password AS password,
+		user.region_code AS regionCode,
+		user.nickname AS nickName,
+		user.mobile AS mobile,
+		user.email AS email,
+		user.face AS face,
+		user.gender AS gender,
+		user.type AS type,
+		user.regtime AS regTime,
+		user.where_from AS whereFrom,
+		user.where_from_extra AS whereFromExtra,
+		user.update_time AS updateTime,
+		user.del_flag AS delFlag
+	</sql>
+
+    <select id="getAll" resultType="user">
+        SELECT
+        <include refid="selectUserSql"/>
+        FROM etago_user AS user
+    </select>
+
+</mapper>

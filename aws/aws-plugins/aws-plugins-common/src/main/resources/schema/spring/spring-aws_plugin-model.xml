@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- AWS凭据提供器
+    <bean id="lasspathPropertiesFileCredentialsProvider"
+          class="com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider">
+        <constructor-arg name="credentialsFilePath" value="config/AwsCredentials.properties"/>
+    </bean>
+    -->
+
+    <!-- AWS S3 客户端 -->
+    <bean id="amazonS3Client" class="com.amazonaws.services.s3.AmazonS3Client">
+        <constructor-arg name="credentialsProvider">
+            <bean class="com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider">
+                <constructor-arg name="credentialsFilePath" value="config/S3Credentials.properties"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <!-- AWS SNS 客户端 -->
+    <bean id="amazonSNSAsyncClient" class="com.amazonaws.services.sns.AmazonSNSAsyncClient">
+        <constructor-arg name="awsCredentialsProvider">
+            <bean class="com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider">
+                <constructor-arg name="credentialsFilePath" value="config/SNSCredentials.properties"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <!-- AWS CloudSearch 客户端 -->
+    <bean id="amazonCloudSearchAsyncClient" class="com.amazonaws.services.cloudsearchv2.AmazonCloudSearchAsyncClient">
+        <constructor-arg name="awsCredentialsProvider">
+            <bean class="com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider">
+                <constructor-arg name="credentialsFilePath" value="config/CloudSearchCredentials.properties"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+    <bean id="amazonCloudSearchDomainAsyncClient"
+          class="com.amazonaws.services.cloudsearchdomain.AmazonCloudSearchDomainAsyncClient">
+        <constructor-arg name="awsCredentialsProvider">
+            <bean class="com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider">
+                <constructor-arg name="credentialsFilePath" value="config/CloudSearchDomainCredentials.properties"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <!-- AWS SQS 客户端 -->
+    <bean id="amazonSQSAsyncClient" class="com.amazonaws.services.sqs.AmazonSQSAsyncClient">
+        <constructor-arg name="awsCredentialsProvider">
+            <bean class="com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider">
+                <constructor-arg name="credentialsFilePath" value="config/SQSCredentials.properties"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+</beans>

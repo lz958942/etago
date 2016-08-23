@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+
+	<!-- 加载属性文件并导入配置工厂 -->
+	<bean id="propertiesFactoryBean" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="location" value="classpath:config/thumbor-configure.properties" />
+	</bean>
+	<bean id="configureLoader" class="com.easarrive.image.thumbor.impl.ConfigureLoader">
+		<property name="configProperties" ref="propertiesFactoryBean" />
+	</bean>
+	<bean id="configureFactory" class="com.easarrive.image.thumbor.ConfigureFactory">
+		<property name="configureLoader" ref="configureLoader" />
+	</bean>
+
+	<!-- Service实现 -->
+	<bean id="generatePicture4Touch" class="com.easarrive.image.thumbor.impl.GeneratePicture4Touch" />
+</beans>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <!-- 加载属性文件并导入配置工厂 -->
+    <bean id="propertiesFactoryBean" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location" value="classpath:config/thumbor-configure.properties"/>
+    </bean>
+    <bean id="configureLoader" class="com.easarrive.image.thumbor.impl.ConfigureLoader">
+        <property name="configProperties" ref="propertiesFactoryBean"/>
+        <property name="thumborConfigureReadDao" ref="thumborConfigureReadDao"/>
+    </bean>
+    <bean id="configureFactory" class="com.easarrive.image.thumbor.ConfigureFactory">
+        <property name="configureLoader" ref="configureLoader"/>
+    </bean>
+
+    <!-- Service实现 -->
+</beans>

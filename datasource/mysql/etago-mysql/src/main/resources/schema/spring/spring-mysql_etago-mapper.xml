@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+	<!-- 读 Etago 数据库 -->
+	<bean name="etagoReadSessionFactoryName" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="etagoReadDataSource" />
+		<property name="configLocation" value="classpath:net/lizhaoweb/datasource/mysql/etago/mapper/read/mybatis_read_config.xml" />
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:net/lizhaoweb/datasource/mysql/etago/mapper/read/*ReadMapper.xml</value>
+			</list>
+		</property>
+	</bean>
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="net.lizhaoweb.datasource.mysql.etago.mapper.read" />
+		<property name="sqlSessionFactoryBeanName" value="etagoReadSessionFactoryName" />
+	</bean>
+
+	<!-- 写 Etago 数据库 -->
+	<bean name="etagoWriteSessionFactoryName" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="etagoWriteDataSource" />
+		<property name="configLocation" value="classpath:net/lizhaoweb/datasource/mysql/etago/mapper/write/mybatis_write_config.xml" />
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:net/lizhaoweb/datasource/mysql/etago/mapper/write/*WriteMapper.xml</value>
+			</list>
+		</property>
+	</bean>
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="net.lizhaoweb.datasource.mysql.etago.mapper.write" />
+		<property name="sqlSessionFactoryBeanName" value="etagoWriteSessionFactoryName" />
+	</bean>
+
+</beans>

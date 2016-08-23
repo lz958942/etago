@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.lizhaoweb.datasource.mysql.etago.mapper.read.IGoodsReadMapper">
+
+	<resultMap type="net.lizhaoweb.datasource.mysql.etago.model.Goods" id="goodsAndTags">
+		<id column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="content" property="content" />
+		<result column="price" property="price" />
+		<result column="cityId" property="cityId" />
+		<result column="saleType" property="saleType" />
+		<result column="deliveryType" property="deliveryType" />
+		<result column="address" property="address" />
+		<result column="payType" property="payType" />
+		<result column="serviceType" property="serviceType" />
+		<result column="type" property="type" />
+		<result column="source" property="source" />
+		<result column="priceUnit" property="priceUnit" />
+		<result column="buynum" property="buynum" />
+		<result column="likenum" property="likenum" />
+		<result column="longitude" property="longitude" />
+		<result column="latitude" property="latitude" />
+		<result column="userId" property="userId" />
+		<result column="addTime" property="addTime" />
+		<result column="updateTime" property="updateTime" />
+		<result column="delFlag" property="delFlag" />
+		<collection property="tagList" ofType="net.lizhaoweb.datasource.mysql.etago.model.GoodsTags">
+			<id column="t_id" property="id" />
+			<result column="t_userId" property="userId" />
+			<result column="t_goodsId" property="goodsId" />
+			<result column="t_tag" property="tag" />
+			<result column="t_addTime" property="addTime" />
+			<result column="t_delFlag" property="delFlag" />
+		</collection>
+	</resultMap>
+
+	<select id="getAll" resultMap="goodsAndTags">
+		SELECT
+		goods.id AS id,
+		goods.title AS title,
+		goods.content AS content,
+		goods.price AS price,
+		goods.city_id AS cityId,
+		goods.sale_type AS saleType,
+		goods.delivery_type AS deliveryType,
+		goods.address AS address,
+		goods.pay_type AS payType,
+		goods.service_type AS serviceType,
+		goods.type AS type,
+		goods.source AS source,
+		goods.price_unit AS priceUnit,
+		goods.buynum AS buynum,
+		goods.likenum AS likenum,
+		goods.longitude AS longitude,
+		goods.latitude AS latitude,
+		goods.user_id AS userId,
+		goods.add_time AS addTime,
+		goods.update_time AS updateTime,
+		goods.del_flag AS delFlag,
+		goodTags.id AS t_id,
+		goodTags.user_id AS t_userId,
+		goodTags.goods_id AS t_goodsId,
+		goodTags.tag AS t_tag,
+		goodTags.add_time AS t_addTime,
+		goodTags.del_flag AS t_delFlag
+		FROM etago_goods AS goods LEFT JOIN etago_goods_tags AS goodTags ON goods.id = goodTags.goods_id
+	</select>
+
+
+	<resultMap type="net.lizhaoweb.datasource.mysql.etago.model.Goods" id="goodsAndTags2">
+		<id column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="content" property="content" />
+		<result column="price" property="price" />
+		<result column="cityId" property="cityId" />
+		<result column="saleType" property="saleType" />
+		<result column="deliveryType" property="deliveryType" />
+		<result column="address" property="address" />
+		<result column="payType" property="payType" />
+		<result column="serviceType" property="serviceType" />
+		<result column="type" property="type" />
+		<result column="source" property="source" />
+		<result column="priceUnit" property="priceUnit" />
+		<result column="buynum" property="buynum" />
+		<result column="likenum" property="likenum" />
+		<result column="longitude" property="longitude" />
+		<result column="latitude" property="latitude" />
+		<result column="userId" property="userId" />
+		<result column="addTime" property="addTime" />
+		<result column="updateTime" property="updateTime" />
+		<result column="delFlag" property="delFlag" />
+		<collection property="tagList" ofType="net.lizhaoweb.datasource.mysql.etago.model.GoodsTags" column="id" select="findGoodTags">
+		</collection>
+	</resultMap>
+
+	<select id="findGoodTags" parameterType="int" resultType="net.lizhaoweb.datasource.mysql.etago.model.GoodsTags">
+		SELECT
+		goodTags.id AS id,
+		goodTags.user_id AS userId,
+		goodTags.goods_id AS goodsId,
+		goodTags.tag AS tag,
+		goodTags.add_time AS addTime,
+		goodTags.del_flag AS del_flag
+		FROM etago_goods_tags AS goodTags WHERE goodTags.goods_id = #{goods_id}
+	</select>
+
+
+	<select id="getAll2" resultMap="goodsAndTags2">
+		SELECT
+		goods.id AS id,
+		goods.title AS title,
+		goods.content AS content,
+		goods.price AS price,
+		goods.city_id AS cityId,
+		goods.sale_type AS saleType,
+		goods.delivery_type AS deliveryType,
+		goods.address AS address,
+		goods.pay_type AS payType,
+		goods.service_type AS serviceType,
+		goods.type AS type,
+		goods.source AS source,
+		goods.price_unit AS priceUnit,
+		goods.buynum AS buynum,
+		goods.likenum AS likenum,
+		goods.longitude AS longitude,
+		goods.latitude AS latitude,
+		goods.user_id AS userId,
+		goods.add_time AS addTime,
+		goods.update_time AS updateTime,
+		goods.del_flag AS delFlag
+		FROM etago_goods AS goods WHERE 1 = 1
+		ORDER BY addTime ASC
+	</select>
+
+</mapper>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:property-placeholder location="classpath*:config/redis.properties" ignore-unresolvable="true"/>
+
+    <!-- Redis 公用配置及连接池设置 -->
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="minIdle" value="${redis.minIdle}"/>
+        <property name="maxIdle" value="${redis.maxIdle}"/>
+        <property name="maxTotal" value="${redis.maxActive}"/>
+        <property name="maxWaitMillis" value="${redis.maxWait}"/>
+        <property name="testOnBorrow" value="${redis.testOnBorrow}"/>
+    </bean>
+
+    <!-- 序列化对象 -->
+    <bean id="stringRedisSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+    <bean id="objectRedisSerializer"
+          class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+
+    <!-- 自定义序列化对象 -->
+    <bean id="thumborConfigureRedisSerializer"
+          class="org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer">
+        <constructor-arg name="type" value="com.easarrive.datasource.redis.etago.model.ThumborConfigure"/>
+    </bean>
+
+    <!-- Redis 连接工厂(读) -->
+    <bean id="jedisConnectionFactory_read_0" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+          p:hostName="${redis.read.host}" p:port="${redis.read.port}" p:password="${redis.read.pass}" p:poolConfig-ref="poolConfig"
+          p:database="${redis.database.index.0}"/>
+    <bean id="jedisConnectionFactory_read_15" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+          p:hostName="${redis.read.host}" p:port="${redis.read.port}" p:password="${redis.read.pass}" p:poolConfig-ref="poolConfig"
+          p:database="${redis.database.index.15}"/>
+
+    <!-- Redis 连接工厂(写) -->
+    <bean id="jedisConnectionFactory_write_0" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+          p:hostName="${redis.write.host}" p:port="${redis.write.port}" p:password="${redis.write.pass}" p:poolConfig-ref="poolConfig"
+          p:database="${redis.database.index.0}"/>
+    <bean id="jedisConnectionFactory_write_15" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+          p:hostName="${redis.write.host}" p:port="${redis.write.port}" p:password="${redis.write.pass}" p:poolConfig-ref="poolConfig"
+          p:database="${redis.database.index.15}"/>
+
+    <!-- Redis 模板(读) -->
+    <bean id="thumborImageRedisTemplate_read" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory_read_0"/>
+        <property name="keySerializer" ref="stringRedisSerializer"/>
+        <property name="valueSerializer" ref="stringRedisSerializer"/>
+    </bean>
+    <bean id="thumborConfigureRedisTemplate_read" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory_read_15"/>
+        <property name="keySerializer" ref="stringRedisSerializer"/>
+        <property name="valueSerializer" ref="thumborConfigureRedisSerializer"/>
+    </bean>
+    <bean id="stringRedisTemplate_read_0" class="org.springframework.data.redis.core.StringRedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory_read_0"/>
+    </bean>
+    <bean id="stringRedisTemplate_read_15" class="org.springframework.data.redis.core.StringRedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory_read_15"/>
+    </bean>
+
+    <!-- Redis 模板(写) -->
+    <bean id="thumborImageRedisTemplate_write" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory_write_0"/>
+        <property name="keySerializer" ref="stringRedisSerializer"/>
+        <property name="valueSerializer" ref="stringRedisSerializer"/>
+    </bean>
+    <bean id="thumborConfigureRedisTemplate_write" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory_write_15"/>
+        <property name="keySerializer" ref="stringRedisSerializer"/>
+        <property name="valueSerializer" ref="thumborConfigureRedisSerializer"/>
+    </bean>
+    <bean id="stringRedisTemplate_write_0" class="org.springframework.data.redis.core.StringRedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory_write_0"/>
+    </bean>
+    <bean id="stringRedisTemplate_write_15" class="org.springframework.data.redis.core.StringRedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory_write_15"/>
+    </bean>
+
+</beans>

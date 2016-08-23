@@ -1,0 +1,63 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.easarrive</groupId>
+        <artifactId>datasource</artifactId>
+        <version>1.0.0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <name>Savor DataSource Mysql</name>
+    <groupId>com.easarrive.datasource</groupId>
+    <artifactId>mysql</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <mysql-connector-java.version>6.0.3</mysql-connector-java.version>
+        <mybatis.version>3.3.1</mybatis.version>
+        <mybatis-spring.version>1.2.5</mybatis-spring.version>
+        <mybatis2.version>2.3.6</mybatis2.version>
+        <mybatis-2-spring.version>1.0.1</mybatis-2-spring.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- Mybatis -->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>${mybatis-spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis2</artifactId>
+                <version>${mybatis2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-2-spring</artifactId>
+                <version>${mybatis-2-spring.version}</version>
+            </dependency>
+
+            <!-- Mysql -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector-java.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build/>
+
+    <modules>
+        <module>etago-mysql</module>
+    </modules>
+</project>

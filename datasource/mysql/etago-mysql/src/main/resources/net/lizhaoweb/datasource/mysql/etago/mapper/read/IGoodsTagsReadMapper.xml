@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.lizhaoweb.datasource.mysql.etago.mapper.read.IGoodsTagsReadMapper">
+
+    <sql id="goodsTagsAllFields">
+		goodsTags.id AS id,
+		goodsTags.user_id AS userId,
+		goodsTags.goods_id AS goodsId,
+		goodsTags.tag AS tag,
+		goodsTags.add_time AS addTime,
+		goodsTags.del_flag AS delFlag
+	</sql>
+
+    <select id="getAll" resultType="goodsTags">
+        SELECT
+        <include refid="goodsTagsAllFields"/>
+        FROM etago_goods_tags AS goodsTags
+        WHERE goodsTags.add_time>#{updateTime}
+    </select>
+
+</mapper>

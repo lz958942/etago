@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thumbor-config>
+	<server>
+		<url>http://192.168.1.15:5277</url>
+	</server>
+	<watermark>
+		<url>http://www.wangjie.org/icons/png/download/png-023/png/Smiley_Sad.png</url>
+	</watermark>
+	<align>
+		<horizontal>Center</horizontal>
+		<vertical>Middle</vertical>
+	</align>
+	<smart value="true" />
+	<meta value="true" />
+	<trim value="true" />
+	<kind-list>
+		<kind id="images/source/user">
+			<source value="images/source/user" />
+			<target value="images/small/user" />
+			<separate-list>
+				<separate>
+					<format value="png" />
+					<suffix value=".png" />
+					<quality value="100" />
+					<round-corner value="50" />
+					<width value="100" />
+					<height value="height" />
+				</separate>
+			</separate-list>
+		</kind>
+		<kind id="images/source/goods">
+			<server>
+				<url>http://192.168.1.15:5277</url>
+			</server>
+			<watermark>
+				<url>http://www.wangjie.org/icons/png/download/png-023/png/Smiley_Sad.png</url>
+			</watermark>
+			<source value="images/source/goods" />
+			<target value="images/small/goods" />
+			<separate-list>
+				<separate>
+					<format value="webp" />
+					<suffix value=".png" />
+					<quality value="100" />
+					<round-corner value="50" />
+					<width value="1080" />
+					<height value="1080" />
+				</separate>
+			</separate-list>
+		</kind>
+	</kind-list>
+</thumbor-config>

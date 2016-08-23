@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.lizhaoweb.datasource.mysql.etago.mapper.read.IUser4CloudSearchReadMapper">
+
+    <sql id="userFields">
+		user.id AS id,
+		user.username AS username,
+		user.password AS password,
+		user.region_code AS regionCode,
+		user.nickname AS nickName,
+		user.mobile AS mobile,
+		user.email AS email,
+		user.face AS face,
+		user.gender AS gender,
+		user.type AS type,
+		user.regtime AS regTime,
+		user.where_from AS userWhereFrom,
+		user.where_from_extra AS whereFromExtra,
+		user.update_time AS updateTime,
+		user.del_flag AS delFlag
+	</sql>
+
+    <sql id="userLoginLogFields">
+		userLoginLog.user_id AS userId,
+		userLoginLog.deviceid AS deviceId,
+		userLoginLog.where_from AS whereFrom,
+		userLoginLog.traceinfo AS traceInfo,
+		userLoginLog.longitude AS longitude,
+		userLoginLog.latitude AS latitude,
+		userLoginLog.ip AS ip,
+		userLoginLog.addtime AS addTime
+	</sql>
+
+    <select id="getAll" resultType="user4CloudSearch">
+        SELECT * FROM
+        (
+        SELECT
+        <include refid="userFields"/>
+        ,
+        <include refid="userLoginLogFields"/>
+        ,
+        userGoods.like_count AS likeCount,
+        userGoods.goods_count AS goodsCount,
+        comments.comment_count AS commonCount,
+        userFriends.fans_count AS fansCount
+        FROM etago_user AS user
+        LEFT JOIN etago_user_login_log AS userLoginLog ON user.id=userLoginLog.user_id
+        LEFT JOIN (
+        SELECT userTemp.id AS user_id,COUNT(userFriendsTemp.friend_id) AS fans_count FROM etago_user AS userTemp LEFT
+        JOIN etago_user_friends AS userFriendsTemp ON userTemp.id=userFriendsTemp.user_id WHERE
+        (userFriendsTemp.status=1 OR userFriendsTemp.status IS NULL) AND (userFriendsTemp.del_flag=0 OR
+        userFriendsTemp.del_flag IS NULL) AND userTemp.id IN
+        <foreach item="item" collection="array" open="(" close=")" separator=",">#{item}</foreach>
+        GROUP BY userTemp.id
+        ) AS userFriends ON user.id=userFriends.user_id
+        LEFT JOIN (
+        SELECT commentDataTemp.id AS id,userTemp.id AS user_id,COUNT(commentDataTemp.id) AS comment_count FROM
+        etago_user AS userTemp LEFT JOIN etago_comment_data AS commentDataTemp ON userTemp.id=commentDataTemp.user_id
+        WHERE (commentDataTemp.status!=0 OR commentDataTemp.status IS NULL) AND userTemp.id IN
+        <foreach item="item" collection="array" open="(" close=")" separator=",">#{item}</foreach>
+        GROUP BY userTemp.id
+        ) AS comments ON user.id=comments.user_id
+        LEFT JOIN (
+        SELECT goodsTemp.id AS id,userTemp.id AS user_id,CASE WHEN goodsTemp.likenum IS NULL THEN 0 ELSE
+        MAX(goodsTemp.likenum) END AS like_count,COUNT(goodsTemp.id) AS goods_count FROM etago_user AS userTemp LEFT
+        JOIN etago_goods AS goodsTemp ON userTemp.id=goodsTemp.user_id WHERE (goodsTemp.del_flag=0 OR goodsTemp.del_flag
+        IS NULL) AND userTemp.id IN
+        <foreach item="item" collection="array" open="(" close=")" separator=",">#{item}</foreach>
+        GROUP BY userTemp.id
+        ) AS userGoods ON user.id=userGoods.user_id
+        WHERE user.id IN
+        <foreach item="item" collection="array" open="(" close=")" separator=",">#{item}</foreach>
+        ORDER BY addTime DESC
+        ) AS userView
+        GROUP BY id
+    </select>
+
+    <select id="getUserIds4Update" parameterType="java.lang.Long" resultType="java.util.Map">
+		SELECT user.id AS id,
+		MAX(user.update_time) AS userUpdateTime,
+		MAX(userLoginLog.addtime) AS userLoginLogUpdateTime,
+		MAX(goods.update_time) AS goodsUpdateTime,
+		MAX(commentData.addtime) AS commentDataUpdateTime
+		FROM etago_user AS user
+		LEFT JOIN etago_user_login_log AS userLoginLog ON user.id=userLoginLog.user_id
+		LEFT JOIN etago_goods AS goods ON user.id=goods.user_id
+		LEFT JOIN etago_comment_data AS commentData ON user.id=commentData.user_id
+		WHERE user.update_time>#{updateTime} OR userLoginLog.addtime>#{updateTime} OR goods.update_time>#{updateTime} OR commentData.addtime>#{updateTime}
+		GROUP BY user.id
+	</select>
+
+</mapper>

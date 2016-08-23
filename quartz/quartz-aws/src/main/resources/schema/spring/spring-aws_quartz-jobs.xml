@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <!-- CloudSearch Users -->
+    <bean id="cloudSearchJobTask4Users"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="usersCloudSearch4DocumentsService"/>
+        <property name="targetMethod" value="executeTask"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+    <bean id="cloudSearchCronTrigger4Users" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="cloudSearchJobTask4Users"/>
+        <property name="cronExpression" value="0 0/3 * * * ?"/>
+    </bean>
+
+    <!-- CloudSearch Goods -->
+    <bean id="cloudSearchJobTask4Goods"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="goodsCloudSearch4DocumentsService"/>
+        <property name="targetMethod" value="executeTask"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+    <bean id="cloudSearchCronTrigger4Goods" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="cloudSearchJobTask4Goods"/>
+        <property name="cronExpression" value="0 0/1 * * * ?"/>
+    </bean>
+
+    <!-- CloudSearch Replys -->
+    <bean id="cloudSearchJobTask4Replys"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="replysCloudSearch4DocumentsService"/>
+        <property name="targetMethod" value="executeTask"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+    <bean id="cloudSearchCronTrigger4Replys" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="cloudSearchJobTask4Replys"/>
+        <property name="cronExpression" value="0 0/7 * * * ?"/>
+    </bean>
+
+    <!-- WordSegmenter Teach Python -->
+    <bean id="wordSegmenterTeachJobTask4Python"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="pythonWordSegmenterService"/>
+        <property name="targetMethod" value="teachFromDatabase"/>
+        <property name="concurrent" value="false"/>
+        <property name="arguments">
+            <list>
+                <value>http://172.31.41.222:5200/words?add=</value>
+                <value>etago</value>
+                <value>etago_cron_task</value>
+                <value>wordSegmenterTeachJobTask4Python</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="wordSegmenterTeachCronTrigger4Python"
+          class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="wordSegmenterTeachJobTask4Python"/>
+        <property name="cronExpression" value="0 0 0 * * ?"/>
+    </bean>
+
+    <!-- ThumborImage Users -->
+    <bean id="thumborImageJobTask4Users"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="thumborImageUsersService"/>
+        <property name="targetMethod" value="executeTask"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+    <bean id="thumborImageCronTrigger4Users"
+          class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="thumborImageJobTask4Users"/>
+        <property name="cronExpression" value="0 0 0 * * ?"/>
+    </bean>
+
+    <!-- ThumborImage Goods -->
+    <bean id="thumborImageJobTask4Goods"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="thumborImageGoodsService"/>
+        <property name="targetMethod" value="executeTask"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+    <bean id="thumborImageCronTrigger4Goods"
+          class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="thumborImageJobTask4Goods"/>
+        <property name="cronExpression" value="0 0 0 * * ?"/>
+    </bean>
+
+</beans>

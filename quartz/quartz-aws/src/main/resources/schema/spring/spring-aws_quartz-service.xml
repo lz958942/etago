@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+
+    <context:property-placeholder location="classpath*:config/configuration.properties" ignore-unresolvable="true"/>
+
+    <import resource="classpath*:schema/spring/spring-aws_plugin-service.xml"/>
+    <import resource="classpath*:schema/spring/spring-thumbor-service.xml"/>
+
+    <!-- CloudSearch Users -->
+    <bean id="usersCloudSearch4DocumentsService"
+          class="com.easarrive.quartz.aws.service.impl.UsersCloudSearch4DocumentsService">
+        <constructor-arg name="regionName">
+            <value>${CloudSearch.users.region.name}</value>
+        </constructor-arg>
+        <constructor-arg name="searchEndpoint">
+            <value>${CloudSearch.users.endpoint.search}</value>
+        </constructor-arg>
+        <constructor-arg name="docEndpoint">
+            <value>${CloudSearch.users.endpoint.doc}</value>
+        </constructor-arg>
+        <constructor-arg name="idFieldName">
+            <value>${CloudSearch.users.field.id.name}</value>
+        </constructor-arg>
+        <constructor-arg name="indexTimeFieldName">
+            <value>${CloudSearch.users.field.index.name}</value>
+        </constructor-arg>
+        <property name="cloudSearchService" ref="cloudSearchService"/>
+    </bean>
+
+    <!-- CloudSearch Goods -->
+    <bean id="goodsCloudSearch4DocumentsService"
+          class="com.easarrive.quartz.aws.service.impl.GoodsCloudSearch4DocumentsService">
+        <constructor-arg name="regionName">
+            <value>${CloudSearch.goods.region.name}</value>
+        </constructor-arg>
+        <constructor-arg name="searchEndpoint">
+            <value>${CloudSearch.goods.endpoint.search}</value>
+        </constructor-arg>
+        <constructor-arg name="docEndpoint">
+            <value>${CloudSearch.goods.endpoint.doc}</value>
+        </constructor-arg>
+        <constructor-arg name="idFieldName">
+            <value>${CloudSearch.goods.field.id.name}</value>
+        </constructor-arg>
+        <constructor-arg name="indexTimeFieldName">
+            <value>${CloudSearch.goods.field.index.name}</value>
+        </constructor-arg>
+        <property name="cloudSearchService" ref="cloudSearchService"/>
+    </bean>
+
+    <!-- CloudSearch Replys -->
+    <bean id="replysCloudSearch4DocumentsService"
+          class="com.easarrive.quartz.aws.service.impl.ReplysCloudSearch4DocumentsService">
+        <constructor-arg name="regionName">
+            <value>${CloudSearch.replys.region.name}</value>
+        </constructor-arg>
+        <constructor-arg name="searchEndpoint">
+            <value>${CloudSearch.replys.endpoint.search}</value>
+        </constructor-arg>
+        <constructor-arg name="docEndpoint">
+            <value>${CloudSearch.replys.endpoint.doc}</value>
+        </constructor-arg>
+        <constructor-arg name="idFieldName">
+            <value>${CloudSearch.replys.field.id.name}</value>
+        </constructor-arg>
+        <constructor-arg name="indexTimeFieldName">
+            <value>${CloudSearch.replys.field.index.name}</value>
+        </constructor-arg>
+        <property name="cloudSearchService" ref="cloudSearchService"/>
+    </bean>
+
+    <!-- WordSegmenter Teach Python -->
+    <bean id="pythonWordSegmenterService"
+          class="com.easarrive.quartz.aws.service.impl.PythonWordSegmenterService">
+    </bean>
+
+    <!-- Thumbor -->
+    <bean id="pictureKeeper2AWSS3" class="com.easarrive.quartz.aws.service.impl.PictureKeeper2AWSS3"/>
+    <bean id="generatePicture4Touch" class="com.easarrive.image.thumbor.impl.GeneratePicture4Touch">
+        <property name="pictureKeeper" ref="pictureKeeper2AWSS3"/>
+    </bean>
+
+    <!-- ThumborImage Users -->
+    <bean id="thumborImageUsersService" class="com.easarrive.quartz.aws.service.impl.ThumborImageUsersService">
+        <property name="bucketName" value="etago-app-dev"/>
+        <property name="maxNumberOfProcessingThreads" value="1"/>
+        <property name="generatePicture" ref="generatePicture4Touch"/>
+        <property name="thumborImageWriteDao" ref="thumborImageUsersWriteDao"/>
+        <property name="thumborImageReadDao" ref="thumborImageUsersReadDao"/>
+    </bean>
+
+    <!-- ThumborImage Goods -->
+    <bean id="thumborImageGoodsService" class="com.easarrive.quartz.aws.service.impl.ThumborImageGoodsService">
+        <property name="bucketName" value="etago-app-dev"/>
+        <property name="maxNumberOfProcessingThreads" value="1"/>
+        <property name="generatePicture" ref="generatePicture4Touch"/>
+        <property name="thumborImageWriteDao" ref="thumborImageGoodsWriteDao"/>
+        <property name="thumborImageReadDao" ref="thumborImageGoodsReadDao"/>
+    </bean>
+
+</beans>

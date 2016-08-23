@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.lizhaoweb.datasource.mysql.etago.mapper.read.IGood4CloudSearchReadMapper">
+
+    <resultMap type="net.lizhaoweb.datasource.mysql.etago.model.Good4CloudSearch" id="goodAndTags4CloudSearch">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="price" property="price"/>
+        <result column="cityId" property="cityId"/>
+        <result column="cityName" property="cityName"/>
+        <result column="timeZone" property="timeZone"/>
+        <result column="countryId" property="countryId"/>
+        <result column="countryName" property="countryName"/>
+        <result column="distanceUnit" property="distanceUnit"/>
+        <result column="currencyCode" property="currencyCode"/>
+        <result column="currencySymbol" property="currencySymbol"/>
+        <result column="saleType" property="saleType"/>
+        <result column="deliveryType" property="deliveryType"/>
+        <result column="address" property="address"/>
+        <result column="payType" property="payType"/>
+        <result column="serviceType" property="serviceType"/>
+        <result column="type" property="type"/>
+        <result column="source" property="source"/>
+        <result column="priceUnit" property="priceUnit"/>
+        <result column="buyNum" property="buyCount"/>
+        <result column="likeNum" property="likeCount"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitude" property="latitude"/>
+        <result column="userId" property="userId"/>
+        <result column="addTime" property="addTime"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="delFlag" property="delFlag"/>
+        <result column="commentNum" property="commentCount"/>
+        <collection property="tagList" ofType="java.lang.String">
+            <result column="t_tag" property="tag"/>
+        </collection>
+        <collection property="imageList" ofType="java.lang.String">
+            <result column="i_imagePath" property="imagePath"/>
+        </collection>
+    </resultMap>
+
+    <sql id="goodsFields">
+		goods.id AS id,
+		goods.title AS title,
+		goods.content AS content,
+		goods.price AS price,
+		goods.city_id AS cityId,
+		goods.sale_type AS saleType,
+		goods.delivery_type AS deliveryType,
+		goods.address AS address,
+		goods.pay_type AS payType,
+		goods.service_type AS serviceType,
+		goods.type AS type,
+		goods.source AS source,
+		goods.price_unit AS priceUnit,
+		goods.buynum AS buyNum,
+		goods.likenum AS likeNum,
+		goods.longitude AS longitude,
+		goods.latitude AS latitude,
+		goods.user_id AS userId,
+		goods.add_time AS addTime,
+		goods.update_time AS updateTime,
+		goods.del_flag AS delFlag
+	</sql>
+
+    <select id="getAll" resultMap="goodAndTags4CloudSearch">
+        SELECT
+        <include refid="goodsFields"/>
+        ,
+        city.name AS cityName,
+        city.timezone AS timeZone,
+        city.mileage_unit AS distanceUnit,
+        city.currency_code AS currencyCode,
+        city.currency_mark AS currencySymbol,
+        country.id AS countryId,
+        country.country_name AS countryName,
+        goodTags.tag AS t_tag,
+        commentDatas.comment_num AS commentNum,
+        goodImgs.image_path AS i_imagePath
+        FROM etago_goods AS goods
+        LEFT JOIN etago_goods_tags AS goodTags ON goods.id=goodTags.goods_id
+        LEFT JOIN etago_goods_img AS goodImgs ON goods.id=goodImgs.goods_id
+        LEFT JOIN etago_city AS city ON goods.city_id=city.id
+        LEFT JOIN etago_country AS country ON city.country_id=country.id
+        LEFT JOIN (
+        SELECT comments.id AS id, goods.id AS goods_id, COUNT(comments.id) AS comment_num FROM etago_goods AS goods LEFT
+        JOIN etago_comment_data AS comments ON goods.id=comments.goods_id WHERE comments.status!=0 AND goods.id IN
+        <foreach item="item" collection="array" open="(" close=")" separator=",">#{item}</foreach>
+        GROUP BY comments.goods_id
+        ) AS commentDatas ON goods.id=commentDatas.goods_id
+        WHERE goods.id IN
+        <foreach item="item" collection="array" open="(" close=")" separator=",">#{item}</foreach>
+        ORDER BY goodImgs.position DESC
+    </select>
+
+    <select id="getGoodIds4Update" parameterType="java.lang.Long" resultType="java.util.Map">
+        SELECT goods.id AS id,
+        MAX(goods.update_time) AS goodsUpdateTime,
+        MAX(goodTags.add_time) AS goodTagsUpdateTime,
+        MAX(goodImgs.add_time) AS goodImgsUpdateTime,
+        MAX(commentData.addtime) AS commentDataUpdateTime
+        FROM etago_goods AS goods
+        LEFT JOIN etago_goods_tags AS goodTags ON goods.id=goodTags.goods_id
+        LEFT JOIN etago_goods_img AS goodImgs ON goods.id=goodImgs.goods_id
+        LEFT JOIN etago_comment_data AS commentData ON goods.id=commentData.goods_id
+        WHERE goods.update_time>#{updateTime} OR goodTags.add_time>#{updateTime} OR goodImgs.add_time>#{updateTime} OR commentData.addtime>#{updateTime}
+        GROUP BY goods.id
+    </select>
+
+</mapper>

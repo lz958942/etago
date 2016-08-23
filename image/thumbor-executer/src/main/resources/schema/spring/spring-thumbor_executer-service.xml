@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <import resource="classpath*:schema/spring/spring-aws_plugin-service.xml"/>
+    <import resource="classpath*:schema/spring/spring-thumbor-service.xml"/>
+
+    <!-- Thumbor -->
+    <bean id="pictureKeeper2AWSS3" class="com.easarrive.image.thumbor.executer.service.impl.PictureKeeper2AWSS3"/>
+    <bean id="generatePicture4Touch" class="com.easarrive.image.thumbor.impl.GeneratePicture4Touch">
+        <property name="pictureKeeper" ref="pictureKeeper2AWSS3"/>
+    </bean>
+
+    <!-- AWS SQS -->
+    <bean id="sqsNotificationHandlerForThumbor"
+          class="com.easarrive.image.thumbor.executer.service.impl.SQSNotificationHandlerForThumbor">
+        <constructor-arg name="generatePicture" ref="generatePicture4Touch"/>
+    </bean>
+    <bean id="sqsNotificationService"
+          class="com.easarrive.aws.plugins.common.service.impl.SQSNotificationService">
+        <property name="notificationHandlerList">
+            <list>
+                <ref bean="sqsNotificationHandlerForThumbor"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Server -->
+    <bean id="sqsServer" class="com.easarrive.image.thumbor.executer.impl.SQSServer" scope="singleton">
+        <property name="sqsService" ref="sqsService"/>
+        <property name="notificationService" ref="sqsNotificationService"/>
+    </bean>
+
+    <bean id="thumborConfigureService"
+          class="com.easarrive.image.thumbor.executer.service.impl.ThumborConfigureService">
+        <property name="writeDao" ref="thumborConfigureWriteDao"/>
+        <property name="readDao" ref="thumborConfigureReadDao"/>
+    </bean>
+</beans>

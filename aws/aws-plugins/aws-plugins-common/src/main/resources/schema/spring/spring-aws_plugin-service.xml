@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <!-- AWS S3 -->
+    <bean id="s3Service" class="com.easarrive.aws.plugins.common.service.impl.S3Service">
+        <property name="amazonS3" ref="amazonS3Client"/>
+    </bean>
+
+    <!-- AWS SNS -->
+    <bean id="snsService" class="com.easarrive.aws.plugins.common.service.impl.SNSService">
+        <property name="amazonSNS" ref="amazonSNSAsyncClient"/>
+    </bean>
+
+    <!-- AWS CloudSearch -->
+    <bean id="cloudSearchService" class="com.easarrive.aws.plugins.common.service.impl.CloudSearchService"
+          scope="prototype">
+        <property name="amazonCloudSearch" ref="amazonCloudSearchAsyncClient"/>
+        <property name="amazonCloudSearchDomain" ref="amazonCloudSearchDomainAsyncClient"/>
+    </bean>
+
+    <!-- AWS SQS -->
+    <bean id="sqsService" class="com.easarrive.aws.plugins.common.service.impl.SQSService">
+        <property name="amazonSQS" ref="amazonSQSAsyncClient"/>
+    </bean>
+</beans>

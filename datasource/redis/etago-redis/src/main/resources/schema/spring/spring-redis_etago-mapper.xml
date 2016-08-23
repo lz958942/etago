@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <!-- 读 ThumborImageUsers 数据库 -->
+    <bean name="thumborImageUsersReadDao"
+          class="com.easarrive.datasource.redis.etago.read.impl.ThumborImageUsersReadDao">
+        <property name="redisTemplate" ref="stringRedisTemplate_read_0"/>
+    </bean>
+
+    <!-- 写 ThumborImageUsers 数据库 -->
+    <bean name="thumborImageUsersWriteDao"
+          class="com.easarrive.datasource.redis.etago.write.impl.ThumborImageUsersWriteDao">
+        <property name="redisTemplate" ref="stringRedisTemplate_write_0"/>
+    </bean>
+
+    <!-- 读 ThumborImageGoods 数据库 -->
+    <bean name="thumborImageGoodsReadDao"
+          class="com.easarrive.datasource.redis.etago.read.impl.ThumborImageGoodsReadDao">
+        <property name="redisTemplate" ref="stringRedisTemplate_read_0"/>
+    </bean>
+
+    <!-- 写 ThumborImageGoods 数据库 -->
+    <bean name="thumborImageGoodsWriteDao"
+          class="com.easarrive.datasource.redis.etago.write.impl.ThumborImageGoodsWriteDao">
+        <property name="redisTemplate" ref="stringRedisTemplate_write_0"/>
+    </bean>
+
+    <!-- 读 ThumborConfigure 数据库 -->
+    <bean name="thumborConfigureReadDao"
+          class="com.easarrive.datasource.redis.etago.read.impl.ThumborConfigureReadDao">
+        <property name="redisTemplate" ref="stringRedisTemplate_read_15"/>
+    </bean>
+
+    <!-- 写 ThumborConfigure 数据库 -->
+    <bean name="thumborConfigureWriteDao"
+          class="com.easarrive.datasource.redis.etago.write.impl.ThumborConfigureWriteDao">
+        <property name="redisTemplate" ref="stringRedisTemplate_write_15"/>
+    </bean>
+
+</beans>

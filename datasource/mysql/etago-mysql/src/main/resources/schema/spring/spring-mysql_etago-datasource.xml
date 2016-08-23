@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:property-placeholder location="classpath*:config/mysql.properties" ignore-unresolvable="true"/>
+
+    <!-- Mysql 公用配置及连接池设置 -->
+    <bean id="jdbc.config" abstract="true">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="initialSize" value="${jdbc.initialSize}"/>
+        <property name="maxIdle" value="${jdbc.maxIdle}"/>
+        <property name="minIdle" value="${jdbc.minIdle}"/>
+        <property name="maxActive" value="${jdbc.maxActive}"/>
+        <property name="removeAbandoned" value="${jdbc.removeAbandoned}"/>
+        <property name="removeAbandonedTimeout" value="${jdbc.removeAbandonedTimeout}"/>
+        <property name="maxWait" value="${jdbc.maxWait}"/>
+        <property name="validationQuery" value="${jdbc.validationQuery}"/>
+        <property name="testOnBorrow" value="${jdbc.testOnBorrow}"/>
+    </bean>
+
+    <!-- Etago 数据源(读) -->
+    <bean id="etagoReadDataSource" class="org.apache.commons.dbcp.BasicDataSource" parent="jdbc.config"
+          destroy-method="close">
+        <property name="url" value="${etago.read.jdbc.url}"/>
+        <property name="username" value="${etago.read.jdbc.username}"/>
+        <property name="password" value="${etago.read.jdbc.password}"/>
+        <property name="timeBetweenEvictionRunsMillis" value="20000"/>
+    </bean>
+
+    <!-- Etago 数据源(写) -->
+    <bean id="etagoWriteDataSource" class="org.apache.commons.dbcp.BasicDataSource" parent="jdbc.config"
+          destroy-method="close">
+        <property name="url" value="${etago.write.jdbc.url}"/>
+        <property name="username" value="${etago.write.jdbc.username}"/>
+        <property name="password" value="${etago.write.jdbc.password}"/>
+    </bean>
+
+</beans>
