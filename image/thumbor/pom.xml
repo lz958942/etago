@@ -85,6 +85,14 @@
             <version>2.0.4</version>
         </dependency>
 
+        <!-- AWS -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>1.11.8</version>
+            <scope>test</scope>
+        </dependency>
+
         <!--自定义插件-->
         <dependency>
             <groupId>net.lizhaoweb.common.util</groupId>
@@ -95,12 +103,6 @@
             <groupId>com.easarrive.datasource.redis</groupId>
             <artifactId>etago-redis</artifactId>
             <version>1.0.0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-s3</artifactId>
-            <version>1.11.8</version>
-            <scope>test</scope>
         </dependency>
 
     </dependencies>
