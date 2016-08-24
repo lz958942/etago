@@ -14,16 +14,6 @@
             <artifactId>base</artifactId>
             <version>1.0.0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>net.lizhaoweb.common.util</groupId>
-            <artifactId>base</artifactId>
-            <version>1.0.0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>net.lizhaoweb.common.util</groupId>
-            <artifactId>base</artifactId>
-            <version>1.0.0.0.1-SNAPSHOT</version>
-        </dependency>
     </dependencies>
     <parent>
         <artifactId>datasource</artifactId>

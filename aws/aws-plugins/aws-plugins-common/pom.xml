@@ -104,4 +104,16 @@
 
     </dependencies>
 
+    <build>
+        <filters>
+            <filter>/application_data/provider/credentials/aws/etago-aws-${runtime.environment}.properties</filter>
+        </filters>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
 </project>
