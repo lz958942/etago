@@ -7,7 +7,7 @@
 </head>
 <body>
 	<div>
-		<span>亚马逊接口</span>
+		<span>图片处理器</span>
 	</div>
 </body>
 </html>
