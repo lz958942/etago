@@ -147,6 +147,9 @@
 
     <build>
         <filters>
+            <filter>/application_data/provider/connection/mysql/etago-mysql-${runtime.environment}.properties</filter>
+            <filter>/application_data/provider/connection/redis/etago-redis-${runtime.environment}.properties</filter>
+            <filter>/application_data/provider/credentials/aws/etago-aws-${runtime.environment}.properties</filter>
             <filter>/application_data/provider/connection/aws/etago-CloudSearch-${runtime.environment}.properties</filter>
         </filters>
         <resources>

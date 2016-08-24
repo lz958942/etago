@@ -128,6 +128,8 @@
 
     <build>
         <filters>
+            <filter>/application_data/provider/connection/redis/etago-redis-${runtime.environment}.properties</filter>
+            <filter>/application_data/provider/credentials/aws/etago-aws-${runtime.environment}.properties</filter>
             <filter>/application_data/provider/connection/thumbor/etago-thumbor-${runtime.environment}.properties</filter>
         </filters>
         <resources>
