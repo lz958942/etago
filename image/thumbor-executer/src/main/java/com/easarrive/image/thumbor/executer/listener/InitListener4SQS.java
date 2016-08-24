@@ -50,7 +50,6 @@ import com.easarrive.image.thumbor.executer.IServer;
  *        Revision of last commit:$Revision$<br>
  *        Author of last commit:$Author$<br>
  *        Date of last commit:$Date$<br>
- *        <p />
  *
  */
 public class InitListener4SQS extends AbstractListener {
