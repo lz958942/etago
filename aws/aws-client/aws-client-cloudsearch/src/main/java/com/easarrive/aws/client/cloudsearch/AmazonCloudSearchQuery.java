@@ -26,16 +26,15 @@ import java.util.Map;
  * Revision of last commit:$Revision$<br>
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
- *
  */
 public class AmazonCloudSearchQuery extends AmazonAbstractCloudSearchQuery {
 
     /**
      * 增加表达式。
      *
-     * @param name
-     * @param expression
-     * @return
+     * @param name       名称
+     * @param expression 表达式
+     * @return AmazonCloudSearchQuery
      */
     public AmazonCloudSearchQuery addExpression(String name, String expression) {
         this.getExpressions().put(name, expression);
@@ -45,9 +44,9 @@ public class AmazonCloudSearchQuery extends AmazonAbstractCloudSearchQuery {
     /**
      * 增加排序条件。
      *
-     * @param fieldOrExpr
-     * @param direction
-     * @return
+     * @param fieldOrExpr 排序方式
+     * @param direction   排序方式
+     * @return AmazonCloudSearchQuery
      */
     public AmazonCloudSearchQuery addSort(String fieldOrExpr, SortOrder direction) {
         this.getSort().put(fieldOrExpr, direction);
@@ -57,8 +56,8 @@ public class AmazonCloudSearchQuery extends AmazonAbstractCloudSearchQuery {
     /**
      * 增加排序条件。
      *
-     * @param fieldOrExpr
-     * @return
+     * @param fieldOrExpr 排序方式
+     * @return AmazonCloudSearchQuery
      */
     public AmazonCloudSearchQuery addSort(String fieldOrExpr) {
         this.addSort(fieldOrExpr, SortOrder.ASC);
@@ -68,8 +67,8 @@ public class AmazonCloudSearchQuery extends AmazonAbstractCloudSearchQuery {
     /**
      * 设置默认操作。
      *
-     * @param operator
-     * @return
+     * @param operator 操作者
+     * @return AmazonCloudSearchQuery
      */
     public AmazonCloudSearchQuery setDefaultOperator(String operator) {
         this.getQueryOptions().put("defaultOperator", operator);

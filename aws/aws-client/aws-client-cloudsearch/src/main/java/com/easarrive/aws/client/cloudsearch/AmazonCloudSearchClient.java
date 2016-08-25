@@ -31,13 +31,17 @@ import java.io.StringWriter;
  * Revision of last commit:$Revision$<br>
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
- *
  */
 public class AmazonCloudSearchClient {
 
     @Getter
     private String searchEndpoint;
 
+    /**
+     * 有参构造
+     *
+     * @param searchEndpoint 搜索节点
+     */
     public AmazonCloudSearchClient(String searchEndpoint) {
         super();
         this.searchEndpoint = searchEndpoint;

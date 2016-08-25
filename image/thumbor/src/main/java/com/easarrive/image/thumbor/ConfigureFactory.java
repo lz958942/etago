@@ -71,7 +71,7 @@ public class ConfigureFactory {
     /**
      * 获得配置对象。
      *
-     * @return
+     * @return ThumborConfigureMap
      */
     public synchronized static ThumborConfigureMap getConfigureMap() {
         try {

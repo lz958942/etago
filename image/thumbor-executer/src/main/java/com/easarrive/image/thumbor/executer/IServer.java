@@ -33,7 +33,7 @@ package com.easarrive.image.thumbor.executer;
 /**
  * 
  * @author <a href="http://www.lizhaoweb.cn">李召(John.Lee)</a>
- * @version
+ * @version 1.0.0.0.1
  * @notes Created on 2016年7月4日<br>
  *        Revision of last commit:$Revision$<br>
  *        Author of last commit:$Author$<br>

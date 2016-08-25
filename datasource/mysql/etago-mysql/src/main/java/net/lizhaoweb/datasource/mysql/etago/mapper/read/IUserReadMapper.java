@@ -31,7 +31,7 @@ public interface IUserReadMapper {
     /**
      * 获取所有用户。
      *
-     * @return
+     * @return List<User>
      */
     List<User> getAll();
 }
