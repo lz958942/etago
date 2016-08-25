@@ -64,10 +64,7 @@
         <argLine>-Dfile.encoding=UTF-8</argLine>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!--
         <runtime.environment>${env.RUNTIME_ENVIRONMENT}</runtime.environment>
-        -->
-        <runtime.environment>production</runtime.environment>
 
         <project.jkd.version>1.7</project.jkd.version>
         <junit.version>4.12</junit.version>
