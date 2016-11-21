@@ -25,7 +25,6 @@ import com.easarrive.aws.plugins.common.service.IS3Service;
 import com.easarrive.aws.plugins.common.util.Constant.SNS.HTTP4AWS.Response.Message.AWSEvent.Name;
 import com.easarrive.aws.plugins.common.util.Constant.SNS.HTTP4AWS.Response.Message.AWSEvent.Source;
 import com.easarrive.aws.plugins.common.util.Constant.SNS.HTTP4AWS.Response.Message.AWSEvent.Version;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.Setter;
 import net.lizhaoweb.common.util.base.JsonUtil;
 import net.lizhaoweb.common.util.base.StringUtil;
@@ -33,7 +32,6 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +42,6 @@ import java.util.List;
  * Revision of last commit:$Revision$<br>
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
- *
  */
 public class SNSNotificationHandlerForCloudSearch implements INotificationHandler<SNSMessage, Boolean> {
 
@@ -197,14 +194,6 @@ public class SNSNotificationHandlerForCloudSearch implements INotificationHandle
         try {
             if (StringUtil.isNotEmpty(message)) {
                 s3EventMessageContent = JsonUtil.toBean(message, S3EventMessageContent.class);
-            }
-        } catch (JsonProcessingException e) {
-            if (logger.isErrorEnabled()) {
-                logger.error(e.getMessage(), e);
-            }
-        } catch (IOException e) {
-            if (logger.isErrorEnabled()) {
-                logger.error(e.getMessage(), e);
             }
         } catch (Exception e) {
             if (logger.isErrorEnabled()) {

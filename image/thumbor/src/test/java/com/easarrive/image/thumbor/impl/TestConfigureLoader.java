@@ -50,7 +50,7 @@ public class TestConfigureLoader {
             ThumborConfigure configure = configureLoader.getConfigure();
             String json = JsonUtil.toJson(configure);
             System.out.println(json);
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

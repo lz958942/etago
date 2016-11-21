@@ -21,7 +21,6 @@ import com.easarrive.aws.plugins.common.service.ISQSService;
 import net.lizhaoweb.common.util.base.HttpClientUtil;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.message.BasicHeader;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +38,6 @@ import java.util.List;
  * Revision of last commit:$Revision$<br>
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
- *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath*:/schema/spring/spring-mysql_etago-model.xml", "classpath*:/schema/spring/spring-mysql_etago-datasource.xml", "classpath*:/schema/spring/spring-mysql_etago-mapper.xml", "classpath*:/schema/spring/spring-aws_plugin-model.xml", "classpath*:/schema/spring/spring-aws_plugin-service.xml"})
@@ -87,9 +84,7 @@ public class TestSQSService {
             goodsHeaderList.add(new BasicHeader("X-THUMBOR-STRONG-AWS-S3", String.format("images/small/goods/%s_%s.%s", saveImageMainName, saveImageResize, saveImageExeName)));
             HttpResponse httpResponse = HttpClientUtil.head(url, goodsHeaderList);
             System.out.println(httpResponse.getStatusLine().getStatusCode());
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

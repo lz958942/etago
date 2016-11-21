@@ -24,7 +24,6 @@ import com.amazonaws.services.cloudsearchv2.model.transform.DefineIndexFieldRequ
 import com.easarrive.aws.plugins.common.model.CloudSearchDocument;
 import com.easarrive.aws.plugins.common.model.CloudSearchOptionType;
 import com.easarrive.aws.plugins.common.service.ICloudSearchService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import net.lizhaoweb.common.util.base.IOUtil;
 import net.lizhaoweb.common.util.base.JsonUtil;
 import net.lizhaoweb.datasource.mysql.etago.mapper.read.IGood4CloudSearchReadMapper;
@@ -51,7 +50,6 @@ import java.util.Set;
  * Revision of last commit:$Revision$<br>
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
- *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath*:/schema/spring/spring-mysql_etago-model.xml", "classpath*:/schema/spring/spring-mysql_etago-datasource.xml", "classpath*:/schema/spring/spring-mysql_etago-mapper.xml", "classpath*:/schema/spring/spring-aws_plugin-model.xml", "classpath*:/schema/spring/spring-aws_plugin-service.xml"})
@@ -108,22 +106,14 @@ public class TestCloudSearchService extends AbstractCloudSearch2UploadService {
 
     @Test
     public void createDomain() {
-        try {
-            CreateDomainResult result = cloudSearchService.createDomain(searchClient, goodsDomainName);
-            System.out.println(JsonUtil.toJson(result));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        CreateDomainResult result = cloudSearchService.createDomain(searchClient, goodsDomainName);
+        System.out.println(JsonUtil.toJson(result));
     }
 
     @Test
     public void deleteDomain() {
-        try {
-            DeleteDomainResult result = cloudSearchService.deleteDomain(searchClient, goodsDomainName);
-            System.out.println(JsonUtil.toJson(result));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        DeleteDomainResult result = cloudSearchService.deleteDomain(searchClient, goodsDomainName);
+        System.out.println(JsonUtil.toJson(result));
     }
 
     @Test

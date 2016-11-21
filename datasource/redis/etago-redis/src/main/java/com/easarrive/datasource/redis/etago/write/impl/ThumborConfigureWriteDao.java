@@ -13,7 +13,6 @@ import com.easarrive.datasource.redis.etago.AbstractDaoByRedisTemplate;
 import com.easarrive.datasource.redis.etago.model.ThumborConfigure;
 import com.easarrive.datasource.redis.etago.util.Constant;
 import com.easarrive.datasource.redis.etago.write.IThumborWriteDao;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import net.lizhaoweb.common.util.base.JsonUtil;
 
 /**
@@ -24,18 +23,13 @@ import net.lizhaoweb.common.util.base.JsonUtil;
  * Revision of last commit:$Revision$<br>
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
- *
  */
 public class ThumborConfigureWriteDao extends AbstractDaoByRedisTemplate<String, String, String> implements IThumborWriteDao<String, ThumborConfigure> {
 
     @Override
     public void save(String key, ThumborConfigure configure) {
-        try {
-            String json = JsonUtil.toJson(configure);
-            this.hashPut(Constant.Thumbor.System.Config.NAMESPACE, key, json);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
+        String json = JsonUtil.toJson(configure);
+        this.hashPut(Constant.Thumbor.System.Config.NAMESPACE, key, json);
     }
 
     @Override

@@ -21,7 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -32,7 +31,6 @@ import java.util.concurrent.Executors;
  * Revision of last commit:$Revision$<br>
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
- *
  */
 public class SNSNotificationService implements ISNSNotificationService {
 
@@ -52,16 +50,10 @@ public class SNSNotificationService implements ISNSNotificationService {
         // Parse the JSON message in the message body and hydrate a Message object with its contents so that we have easy access to the name/value pairs from the JSON message.
         StringBuilder builder = SNSUtil.getHttpRequestContent(request);
         SNSMessage message = null;
-        try {
-            if (logger.isDebugEnabled()) {
-                logger.debug(builder.toString());
-            }
-            message = JsonUtil.toBean(builder.toString(), SNSMessage.class);
-        } catch (IOException e) {
-            if (logger.isErrorEnabled()) {
-                logger.error(e.getMessage(), e);
-            }
+        if (logger.isDebugEnabled()) {
+            logger.debug(builder.toString());
         }
+        message = JsonUtil.toBean(builder.toString(), SNSMessage.class);
         return message;
     }
 
@@ -76,16 +68,10 @@ public class SNSNotificationService implements ISNSNotificationService {
         }
         // Parse the JSON message in the message body and hydrate a Message object with its contents so that we have easy access to the name/value pairs from the JSON message.
         SNSMessage message = null;
-        try {
-            if (logger.isDebugEnabled()) {
-                logger.debug(json);
-            }
-            message = JsonUtil.toBean(json, SNSMessage.class);
-        } catch (IOException e) {
-            if (logger.isErrorEnabled()) {
-                logger.error(e.getMessage(), e);
-            }
+        if (logger.isDebugEnabled()) {
+            logger.debug(json);
         }
+        message = JsonUtil.toBean(json, SNSMessage.class);
         return message;
     }
 

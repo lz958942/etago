@@ -89,7 +89,7 @@ public class TestSNS {
 
             S3EventMessageContent content = JsonUtil.toBean(message.getMessage(), S3EventMessageContent.class);
             System.out.println(content);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

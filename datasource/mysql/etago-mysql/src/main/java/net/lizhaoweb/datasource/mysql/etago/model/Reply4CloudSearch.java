@@ -11,7 +11,6 @@ package net.lizhaoweb.datasource.mysql.etago.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.lizhaoweb.common.util.base.JsonUtil;
@@ -28,7 +27,6 @@ import java.util.List;
  * Revision of last commit:$Revision$<br>
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
- *
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -144,10 +142,7 @@ public class Reply4CloudSearch extends Abstract4CloudSearch {
     @JsonProperty("user_object")
     public String getUserObject() {
         String result = null;
-        try {
-            result = JsonUtil.toJson(user);
-        } catch (JsonProcessingException e) {
-        }
+        result = JsonUtil.toJson(user);
         return result;
     }
 

@@ -15,7 +15,6 @@ import com.easarrive.datasource.redis.etago.read.IThumborReadDao;
 import com.easarrive.datasource.redis.etago.util.Constant;
 import net.lizhaoweb.common.util.base.JsonUtil;
 
-import java.io.IOException;
 import java.util.Set;
 
 /**
@@ -26,19 +25,14 @@ import java.util.Set;
  * Revision of last commit:$Revision$<br>
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
- *
  */
 public class ThumborConfigureReadDao extends AbstractDaoByRedisTemplate<String, String, String> implements IThumborReadDao<String, ThumborConfigure> {
 
     @Override
     public ThumborConfigure get(String key) {
-        try {
-            String json = this.hashGet(Constant.Thumbor.System.Config.NAMESPACE, key);
-            ThumborConfigure bean = JsonUtil.toBean(json, ThumborConfigure.class);
-            return bean;
-        } catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
+        String json = this.hashGet(Constant.Thumbor.System.Config.NAMESPACE, key);
+        ThumborConfigure bean = JsonUtil.toBean(json, ThumborConfigure.class);
+        return bean;
     }
 
     @Override
