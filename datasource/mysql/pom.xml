@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <mysql-connector-java.version>6.0.3</mysql-connector-java.version>
+        <mysql-connector-java.version>8.0.16</mysql-connector-java.version>
         <mybatis.version>3.3.1</mybatis.version>
         <mybatis-spring.version>1.2.5</mybatis-spring.version>
         <mybatis2.version>2.3.6</mybatis2.version>
