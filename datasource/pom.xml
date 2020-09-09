@@ -12,7 +12,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <hibernate.validator.version>5.2.4.Final</hibernate.validator.version>
+        <hibernate.validator.version>5.3.6.Final</hibernate.validator.version>
     </properties>
 
     <dependencyManagement>
